@@ -107,23 +107,43 @@ void recons_tt(){
         TLorentzVector momentum_nu;
         int symbol=1;
         int j1,j2;
-        int bindex0,j01,j02;
-        for( bindex=0;bindex<2&&symbol;bindex++){
-        	for( j1=0; (j1< jet_num-2)&&symbol; j1++){
-         		for( j2=j1+1;(j2<jet_num-2)&&symbol; j2++){
+    //    int bindex0,j01,j02;
+        for( bindex=0;bindex<2;bindex++){
+        	for( j1=0; j1< jet_num-2; j1++){
+         		for( j2=j1+1;j2<jet_num-2; j2++){
          			NeutrinoSolver neu(&mom_lep,&mom_jets[bjets_index[bindex]],80,172.5);
       				neu.GetBest(metx,mety,1,1,0,minD);
       				momentum_nu=neu.GetBest(metx,mety,metxerr,metyerr,metxypho,nstest);
       				if(minD>=0) minD=Sqrt(minD);
-        			par[0]=j1;par[1]=j2;
+        			par[0]=j1;
+        			par[1]=j2;
         			minimum_likelihood=likelihood(momentum_nu,par);
-        			if(minimum_likelihood<1000000){
-        				symbol=0;
+        			if(minimum_likelihood<1000000&&symbol==1){
+        				symbol=2;
+        				minimum=minimum_likelihood;
+	          			mom_nu=momentum_nu;
+	          			D=minD;
+	          			bjet_lep=bindex;
+	          			bjet_had= bindex==0 ? 1: 0;
+	          			min_j1=j1;
+	          			min_j2=j2;
+	          			chi2=nstest;
         			}
+        			else if(minimum_likelihood<1000000&&minimum_likelihood < minimum&&symbol>1){
+        				minimum=minimum_likelihood;
+	          			mom_nu=momentum_nu;
+	          			bjet_lep=bindex;
+	          			bjet_had= bindex==0 ? 1: 0;
+	          			min_j1=j1;
+	          			min_j2=j2;
+	          			D=minD;
+						chi2=nstest;
+        			}
+        			else{}
 					}
 				}
 			}
-		if(!(bindex==2&&j1==jet_num-1)){
+	/*	if(!(bindex==2&&j1==jet_num-1)){
 		bindex=bindex-1;j1=j1-1;j02=j2-1;
 		bindex0=bindex;j01=j1+1;
 		for(j2=j02;j2<jet_num-2; j2++){
@@ -174,12 +194,12 @@ void recons_tt(){
 	          			D=minD;
 						chi2=nstest;
 					}
-				/*	cout<<"j1: "<<j1<<" j2: "<<j2<<endl;
+					cout<<"j1: "<<j1<<" j2: "<<j2<<endl;
 	          		cout<<"nupz: "<<nupz<<" minimum: "<<minimum<<endl;
 	          		cout<<"bjets_index[0]:"<<bjets_index[0]<<" bjets_index[1]: "<<bjets_index[1]<<endl;
      				cout<<"mass_wlep: "<<mass_wlep<<" mass_whad: "<<mass_whad<<" mass_thad: "<<mass_thad<<"mass_tlep: "<<mass_tlep<<endl;
      				cout<<"pro_wlep: "<<pro_wlep<<" pro_whad: "<<pro_whad<<" pro_thad: "<<pro_thad<<"pro_tlep: "<<pro_tlep<<endl;
-         		*/
+         		
          		}
         	}
    		}
@@ -192,7 +212,20 @@ void recons_tt(){
 	          			min_j2=1;
 	          			D=minD;
 						chi2=nstest;
-   	}
+   	}*/
+			if(symbol==1){
+				NeutrinoSolver neu(&mom_lep,&mom_jets[bjets_index[0]],80,172.5);
+				neu.GetBest(metx,mety,1,1,0,minD);
+      			momentum_nu=neu.GetBest(metx,mety,metxerr,metyerr,metxypho,nstest);
+      			if(minD>=0) minD=Sqrt(minD);
+				mom_nu=momentum_nu;
+	          	bjet_lep=0;
+	          	bjet_had=1;
+	          	min_j1=0;
+	          	min_j2=1;
+	          	D=minD;
+				chi2=nstest;
+			}
  		//cout<<"-----------------------------------"<<endl;
       mass_wlep=(mom_nu+mom_lep).M();
       neutrino_pz=mom_nu.Z();
@@ -581,9 +614,9 @@ void get_info_new(){
 	        	}
 	        	Distance=D;
 	        	if(D<=150&&D>=0){
-	        		if(entry<500){
-	        			cout<<mom_nu.X()<<" "<<mom_nu.Y()<<" "<<neutrino_pz<<" "<<D<<" "<<chi2<<endl;
-	        		}
+	        	//	if(entry<500){
+	        	//		cout<<mom_nu.X()<<" "<<mom_nu.Y()<<" "<<neutrino_pz<<" "<<D<<" "<<chi2<<endl;
+	        	//	}
 	        		mytree->Fill();
 	        		nevents2++;
 	        	}
