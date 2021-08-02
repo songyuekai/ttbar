@@ -407,7 +407,7 @@ void get_info(){
 			jet_num=0;//count number fot jets satisfy the selection criteria
 			for(int i=0; i<nJet;i++){
 				if(Jet_eta[i] < 2.4 && Jet_pt[i] >30){
-					mom_jets[i].SetPtEtaPhiM(Jet_pt[i], Jet_eta[i], Jet_phi[i],Jet_mass[i]);
+					mom_jets[jet_num].SetPtEtaPhiM(Jet_pt[i], Jet_eta[i], Jet_phi[i],Jet_mass[i]);
 	        		//jets_btag[i]=Jet_btaged[i]; //for reconstruct
 	        		jet_num=jet_num+1;
 	        		if(Jet_btagDeepB[i] > 0.14)
@@ -430,7 +430,7 @@ void get_info(){
 	        int jet_satisfy=0;
 	        btag_num=0;  //count bjet number in the leading four jets.
 	        if(nJet>=njet_need){ //njet_need=4 by default
-	        	for(int i=0; i<njet_need;i++){
+	        	for(int i=0; i<nJet;i++){
 	        		if(Jet_eta[i] < 2.4 && Jet_pt[i] >30)
 	        			{jet_satisfy++;
 	        			 btag_num=btag_num+Jet_btaged[i];
@@ -439,7 +439,7 @@ void get_info(){
 	        		else
 	        			break;
 	        	}
-	        	if(jet_satisfy==njet_need && btag_num >=2)
+	        	if(jet_satisfy>=njet_need && btag_num >=2)
 	        		jet_flag=true;
 	        }
 	        //select lepton
