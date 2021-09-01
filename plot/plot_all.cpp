@@ -1,3 +1,4 @@
+//plot some distributions for signal and background in normalized graphs 
 void format_canvas(TCanvas *c) {
   	c->SetFillColor(0);
  	c->SetBorderMode(0);

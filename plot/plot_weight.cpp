@@ -1,3 +1,4 @@
+//draw deltay and mtt for reconstructed level and gen level with weight in different graphs 
 void format_canvas(TCanvas *c) {
   	c->SetFillColor(0);
  	c->SetBorderMode(0);
@@ -18,7 +19,7 @@ void plot_weight() {
   	TString fileNames[] = {"new_new_TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia8_1TopNanoAODv6p1_2018.root"};
   	//TString legend[] = {"wrong reco", "non reco", "background", "right reco"};
   	TString xvars[] = {"rapidity_tt", "mass_tt","delta_rapidity_gen","M_tt_gen","likelihood","rectop_pt","neutrino_pz"};
-  	TString xtitle[] = {"#Deltay_{t#bar{t}}", "M_{t#bar{t}} [GeV]","gen_#Deltay_{t#bar{t}}","gen_M_{t#bar{t}} [GeV]","P_{T}(t) [GeV]","P_{z}^{#nu} [GeV]"};
+  	TString xtitle[] = {"#Deltay_{t#bar{t}}", "M_{t#bar{t}} [GeV]","#Deltay_{t#bar{t}}^{gen}","M_{t#bar{t}}^{gen} [GeV]","P_{T}(t) [GeV]","P_{z}^{#nu} [GeV]"};
   	TString title[] = {"detlay", "mtt","gen_deltay","gen_mass","likelihood","pt","neutrino_pz"};
   	float xlow[] = {-4.0, 330,-4,330,17.0,0.0,-1100.0};
   	float xup[] = {4.0, 2000.0,4,1200,20.0,1000.0,1100.0};
@@ -191,9 +192,9 @@ void plot_weight() {
         		h1->GetXaxis()->CenterTitle();
         		h1->GetYaxis()->CenterTitle();
         		h1->GetYaxis()->SetNdivisions(ydivisions[i]);
-        		h1->GetXaxis()->SetTitleSize(0.15);
+        		h1->GetXaxis()->SetTitleSize(0.13);
        			h1->GetYaxis()->SetTitleSize(0.06*p2weight);
-        		h1->GetXaxis()->SetTitleOffset(0.9);
+        		h1->GetXaxis()->SetTitleOffset(1.1);
 	        	h1->GetYaxis()->SetTitleOffset(1.1/p2weight);
 	        	h1->GetXaxis()->SetLabelSize(0.05*p2weight);
 	        	h1->GetYaxis()->SetLabelSize(0.05*p2weight);
