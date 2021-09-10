@@ -244,7 +244,7 @@ Double_t recons_tt1(){
 }  
 ///////////////////////////////////////////////////////////////////////
 // select the semileptonic final states and reconstruct top quark pairs.
-void get_info_s(){
+void get_info_semi_geo(){
     TChain chain("Events");
   	TString inputFile ="TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia8_1TopNanoAODv6p1_2018.root";
   	chain.Add(inputFile);
