@@ -81,7 +81,7 @@ void plot_all() {
   	int xbins[] = {40, 50, 60, 50,110,11,25,20,50,50};
   	float max;
   //	TString seletName[] = {"wrong_reco", "non_reco", "background", "right_reco"};
-  	for (int i = 0; i < 10; i++) {                         // loop over variables
+  	for (int i = 0; i < 2; i++) {                         // loop over variables
    	 	auto c1 = new TCanvas("c1", "c1", 8, 30, 600, 600); // temporary canvas
     	auto c2 = new TCanvas("c2", "c2", 8, 30, 600, 600); // draw on this canvas
    		format_canvas(c2);
@@ -104,7 +104,7 @@ void plot_all() {
         		tree->Add(fileNames[j]);
         		tree1->Add(fileNames[j]);
         		TH1F* hist=new TH1F("hist", "", xbins[i], xlow[i], xup[i]);
-      			float weight1=cross_sections[j]*lumi*(tree->GetEntries())/(tree1->GetEntries())*K_Factor[j];
+      			float weight1=cross_sections[j]*lumi/(tree1->GetEntries())*K_Factor[j];
       			TString weight=Form("%f",weight1);
       			c1->cd();
       			tree->Draw(xvars[i] + ">>hist");
@@ -128,7 +128,7 @@ void plot_all() {
         		tree->Add(fileNames[j]);
         		tree1->Add(fileNames[j]);
         		TH1F* hist=new TH1F("hist", "", xbins[i], xlow[i], xup[i]);
-      			float weight1=cross_sections[j]*lumi*(tree->GetEntries())/(tree1->GetEntries())*K_Factor[j];
+      			float weight1=cross_sections[j]*lumi/(tree1->GetEntries())*K_Factor[j];
       			TString weight=Form("%f",weight1);
       			c1->cd();
       			tree->Draw(xvars[i] + ">>hist");
